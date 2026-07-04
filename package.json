@@ -1,0 +1,55 @@
+{
+  "name": "citeguard",
+  "version": "0.1.0",
+  "description": "Per-claim citation verification for AI-generated text: fetches every cited source and returns supported/contradicted/unsupported verdicts with quoted evidence spans.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "citeguard": "dist/cli.js",
+    "citeguard-mcp": "dist/mcp/server.js"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "mcp": "tsx src/mcp/server.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "citations",
+    "fact-checking",
+    "hallucination",
+    "grounding",
+    "mcp",
+    "model-context-protocol",
+    "ai-agents",
+    "verification"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Franksterino/citeguard.git"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@mozilla/readability": "^0.5.0",
+    "linkedom": "^0.18.0",
+    "unpdf": "^0.12.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
