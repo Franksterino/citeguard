@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b949e"/>
+    </marker>
+    <marker id="arrg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3fb950"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="640" fill="#0d1117"/>
+  <text x="30" y="42" fill="#e6edf3" font-size="24" font-weight="700">CiteGuard — Agent Society architecture</text>
+  <text x="30" y="66" fill="#8b949e" font-size="13">Writer agent drafts · Verifier agent audits every citation against the real source · Gate blocks unsupported claims</text>
+
+  <!-- Clients -->
+  <rect x="30" y="100" width="180" height="150" rx="10" fill="#161b22" stroke="#30363d"/>
+  <text x="120" y="125" fill="#e6edf3" font-size="14" font-weight="700" text-anchor="middle">Clients</text>
+  <text x="120" y="150" fill="#8b949e" font-size="12" text-anchor="middle">MCP clients (Claude, IDEs)</text>
+  <text x="120" y="170" fill="#8b949e" font-size="12" text-anchor="middle">REST API consumers</text>
+  <text x="120" y="190" fill="#8b949e" font-size="12" text-anchor="middle">Web demo /demo</text>
+  <text x="120" y="210" fill="#8b949e" font-size="12" text-anchor="middle">Apify Actor users</text>
+  <text x="120" y="230" fill="#8b949e" font-size="12" text-anchor="middle">CLI / CI pipelines</text>
+
+  <!-- Worker -->
+  <rect x="280" y="100" width="300" height="150" rx="10" fill="#161b22" stroke="#f78166" stroke-width="1.5"/>
+  <text x="430" y="125" fill="#e6edf3" font-size="14" font-weight="700" text-anchor="middle">Cloudflare Worker (edge)</text>
+  <text x="430" y="150" fill="#8b949e" font-size="12" text-anchor="middle">REST: /api/verify · /api/check · /api/links</text>
+  <text x="430" y="170" fill="#8b949e" font-size="12" text-anchor="middle">Remote MCP (streamable HTTP): /mcp</text>
+  <text x="430" y="190" fill="#8b949e" font-size="12" text-anchor="middle">Agent pipeline: /api/agent-demo</text>
+  <text x="430" y="210" fill="#8b949e" font-size="12" text-anchor="middle">KV cache + per-IP rate limiting</text>
+  <text x="430" y="230" fill="#8b949e" font-size="12" text-anchor="middle">Workers AI fallback judge</text>
+
+  <!-- Qwen -->
+  <rect x="660" y="100" width="270" height="150" rx="10" fill="#161b22" stroke="#a371f7" stroke-width="1.5"/>
+  <text x="795" y="125" fill="#e6edf3" font-size="14" font-weight="700" text-anchor="middle">Qwen Cloud (Alibaba)</text>
+  <text x="795" y="152" fill="#c9d1d9" font-size="12" text-anchor="middle">Writer agent — qwen3.7-plus</text>
+  <text x="795" y="172" fill="#8b949e" font-size="11" text-anchor="middle">drafts citation-dense prose</text>
+  <text x="795" y="198" fill="#c9d1d9" font-size="12" text-anchor="middle">Entailment judge — qwen3.7-plus</text>
+  <text x="795" y="218" fill="#8b949e" font-size="11" text-anchor="middle">reads ONLY fetched source text,</text>
+  <text x="795" y="234" fill="#8b949e" font-size="11" text-anchor="middle">returns verdict + evidence quote</text>
+
+  <!-- Verification pipeline -->
+  <rect x="30" y="310" width="900" height="180" rx="10" fill="#161b22" stroke="#30363d"/>
+  <text x="480" y="336" fill="#e6edf3" font-size="14" font-weight="700" text-anchor="middle">Verification pipeline (per claim)</text>
+
+  <rect x="60" y="360" width="150" height="100" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <text x="135" y="385" fill="#e6edf3" font-size="12" font-weight="600" text-anchor="middle">1 · Extract</text>
+  <text x="135" y="405" fill="#8b949e" font-size="11" text-anchor="middle">markdown links,</text>
+  <text x="135" y="420" fill="#8b949e" font-size="11" text-anchor="middle">footnotes, DOIs,</text>
+  <text x="135" y="435" fill="#8b949e" font-size="11" text-anchor="middle">bare URLs → claims</text>
+
+  <rect x="250" y="360" width="150" height="100" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <text x="325" y="385" fill="#e6edf3" font-size="12" font-weight="600" text-anchor="middle">2 · Fetch</text>
+  <text x="325" y="405" fill="#8b949e" font-size="11" text-anchor="middle">timeouts, 5 MB cap,</text>
+  <text x="325" y="420" fill="#8b949e" font-size="11" text-anchor="middle">soft-404 detection,</text>
+  <text x="325" y="435" fill="#8b949e" font-size="11" text-anchor="middle">archive.org fallback</text>
+
+  <rect x="440" y="360" width="150" height="100" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <text x="515" y="385" fill="#e6edf3" font-size="12" font-weight="600" text-anchor="middle">3 · Distill</text>
+  <text x="515" y="405" fill="#8b949e" font-size="11" text-anchor="middle">Readability boilerplate</text>
+  <text x="515" y="420" fill="#8b949e" font-size="11" text-anchor="middle">strip, PDF extraction,</text>
+  <text x="515" y="435" fill="#8b949e" font-size="11" text-anchor="middle">size-capped text</text>
+
+  <rect x="630" y="360" width="150" height="100" rx="8" fill="#0d1117" stroke="#a371f7"/>
+  <text x="705" y="385" fill="#e6edf3" font-size="12" font-weight="600" text-anchor="middle">4 · Judge (Qwen)</text>
+  <text x="705" y="405" fill="#8b949e" font-size="11" text-anchor="middle">entailment only from</text>
+  <text x="705" y="420" fill="#8b949e" font-size="11" text-anchor="middle">source text, verbatim</text>
+  <text x="705" y="435" fill="#8b949e" font-size="11" text-anchor="middle">evidence span</text>
+
+  <rect x="820" y="360" width="90" height="100" rx="8" fill="#0d1117" stroke="#3fb950"/>
+  <text x="865" y="385" fill="#e6edf3" font-size="12" font-weight="600" text-anchor="middle">5 · Gate</text>
+  <text x="865" y="408" fill="#3fb950" font-size="11" text-anchor="middle">approve /</text>
+  <text x="865" y="423" fill="#f85149" font-size="11" text-anchor="middle">block</text>
+  <text x="865" y="443" fill="#8b949e" font-size="10" text-anchor="middle">integrity 0-100</text>
+
+  <line x1="210" y1="410" x2="245" y2="410" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="400" y1="410" x2="435" y2="410" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="590" y1="410" x2="625" y2="410" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="780" y1="410" x2="815" y2="410" stroke="#3fb950" stroke-width="1.5" marker-end="url(#arrg)"/>
+
+  <!-- Connections top row -->
+  <line x1="210" y1="175" x2="275" y2="175" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="580" y1="175" x2="655" y2="175" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="430" y1="250" x2="430" y2="305" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Verdicts -->
+  <text x="30" y="530" fill="#8b949e" font-size="12">Verdicts:</text>
+  <rect x="100" y="514" width="80" height="22" rx="11" fill="#1a7f37"/><text x="140" y="529" fill="#fff" font-size="11" text-anchor="middle">supported</text>
+  <rect x="188" y="514" width="60" height="22" rx="11" fill="#9e6a03"/><text x="218" y="529" fill="#fff" font-size="11" text-anchor="middle">partial</text>
+  <rect x="256" y="514" width="94" height="22" rx="11" fill="#b62324"/><text x="303" y="529" fill="#fff" font-size="11" text-anchor="middle">contradicted</text>
+  <rect x="358" y="514" width="94" height="22" rx="11" fill="#b62324"/><text x="405" y="529" fill="#fff" font-size="11" text-anchor="middle">unsupported</text>
+  <rect x="460" y="514" width="80" height="22" rx="11" fill="#57606a"/><text x="500" y="529" fill="#fff" font-size="11" text-anchor="middle">uncertain</text>
+  <rect x="548" y="514" width="110" height="22" rx="11" fill="#57606a"/><text x="603" y="529" fill="#fff" font-size="11" text-anchor="middle">could_not_fetch</text>
+
+  <text x="30" y="580" fill="#8b949e" font-size="12">Distribution surfaces: open-source repo (MIT) · npm MCP server · hosted API · Apify Store Actor (pay-per-event) · web demo</text>
+  <text x="30" y="600" fill="#8b949e" font-size="12">Every verdict ships a verbatim quote from the fetched source — the human can self-verify in seconds. Unreachable sources are never judged blind.</text>
+</svg>
