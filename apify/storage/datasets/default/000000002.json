@@ -1,0 +1,11 @@
+{
+	"claim": "The Great Wall of China is visible from the Moon (Wikipedia).",
+	"source": "https://en.wikipedia.org/wiki/Great_Wall_of_China",
+	"verdict": "contradicted",
+	"confidence": 1,
+	"evidence": "The Great Wall of China cannot be seen by the naked human eye from the Moon which orbits around Earth at an average distance of 384,399 kilometres (238,854 mi).",
+	"reasoning": "The source explicitly states that the Great Wall cannot be seen from the Moon with the naked eye, directly contradicting the claim.",
+	"httpStatus": 200,
+	"fromArchive": false,
+	"resolvedUrl": "https://en.wikipedia.org/wiki/Great_Wall_of_China"
+}

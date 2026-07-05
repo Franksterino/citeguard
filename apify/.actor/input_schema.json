@@ -1,0 +1,34 @@
+{
+  "title": "AI Citation Auditor input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "documentText": {
+      "title": "Document text",
+      "type": "string",
+      "description": "Markdown or plain text containing citations (markdown links, footnotes, DOIs, bare URLs). Every citation is extracted and verified against its source.",
+      "editor": "textarea",
+      "prefill": "The Eiffel Tower is 330 metres tall ([Wikipedia](https://en.wikipedia.org/wiki/Eiffel_Tower)). It is located in Berlin ([Wikipedia](https://en.wikipedia.org/wiki/Eiffel_Tower))."
+    },
+    "documentUrl": {
+      "title": "Document URL",
+      "type": "string",
+      "description": "Alternatively: URL of a page/markdown file to audit. Its text is fetched, citations extracted and verified.",
+      "editor": "textfield"
+    },
+    "claims": {
+      "title": "Explicit claim/source pairs",
+      "type": "array",
+      "description": "Alternatively: explicit pairs to verify, e.g. [{\"text\": \"claim...\", \"source\": \"https://...\"}]",
+      "editor": "json"
+    },
+    "maxClaims": {
+      "title": "Max claims to verify",
+      "type": "integer",
+      "description": "Safety cap on the number of claims verified in one run.",
+      "default": 50,
+      "minimum": 1,
+      "maximum": 200
+    }
+  }
+}

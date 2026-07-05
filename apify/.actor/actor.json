@@ -1,0 +1,33 @@
+{
+  "actorSpecification": 1,
+  "name": "ai-citation-auditor",
+  "title": "AI Citation Auditor",
+  "description": "Verify every citation in AI-generated text: fetches each cited source and returns supported/contradicted/unsupported verdicts with quoted evidence spans. Catches hallucinated citations before you publish.",
+  "version": "0.1",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "title": "Citation verdicts",
+      "views": {
+        "verdicts": {
+          "title": "Verdicts",
+          "transformation": {
+            "fields": ["claim", "source", "verdict", "confidence", "evidence", "reasoning"]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "claim": { "label": "Claim", "format": "text" },
+              "source": { "label": "Source", "format": "link" },
+              "verdict": { "label": "Verdict", "format": "text" },
+              "confidence": { "label": "Confidence", "format": "number" },
+              "evidence": { "label": "Evidence", "format": "text" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

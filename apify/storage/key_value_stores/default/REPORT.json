@@ -1,0 +1,48 @@
+{
+  "verdicts": [
+    {
+      "claimId": "c1",
+      "claim": "The Eiffel Tower is 330 metres tall (Wikipedia).",
+      "source": "https://en.wikipedia.org/wiki/Eiffel_Tower",
+      "verdict": "supported",
+      "confidence": 1,
+      "evidence": "The tower is 330 metres (1,083 ft) tall,[9]",
+      "reasoning": "The source explicitly states the height of the Eiffel Tower as 330 metres.",
+      "sourceStatus": {
+        "resolvedUrl": "https://en.wikipedia.org/wiki/Eiffel_Tower",
+        "httpStatus": 200,
+        "ok": true,
+        "fromArchive": false,
+        "redirectedToRoot": false,
+        "contentType": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "claimId": "c2",
+      "claim": "The Great Wall of China is visible from the Moon (Wikipedia).",
+      "source": "https://en.wikipedia.org/wiki/Great_Wall_of_China",
+      "verdict": "contradicted",
+      "confidence": 1,
+      "evidence": "The Great Wall of China cannot be seen by the naked human eye from the Moon which orbits around Earth at an average distance of 384,399 kilometres (238,854 mi).",
+      "reasoning": "The source explicitly states that the Great Wall cannot be seen from the Moon with the naked eye, directly contradicting the claim.",
+      "sourceStatus": {
+        "resolvedUrl": "https://en.wikipedia.org/wiki/Great_Wall_of_China",
+        "httpStatus": 200,
+        "ok": true,
+        "fromArchive": false,
+        "redirectedToRoot": false,
+        "contentType": "text/html; charset=UTF-8"
+      }
+    }
+  ],
+  "integrityScore": 50,
+  "summary": {
+    "total": 2,
+    "supported": 1,
+    "partiallySupported": 0,
+    "contradicted": 1,
+    "unsupported": 0,
+    "uncertain": 0,
+    "couldNotFetch": 0
+  }
+}

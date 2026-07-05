@@ -1,0 +1,14 @@
+{
+  "name": "ai-citation-auditor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Apify Actor: verify every citation in AI-generated text against its actual source.",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "apify": "^3.2.0"
+  }
+}
