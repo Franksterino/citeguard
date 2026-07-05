@@ -11,7 +11,7 @@
  * DASHSCOPE_API_KEY secret is set (used for the Qwen hackathon deployment).
  */
 
-import { verifyClaims, buildReport, checkDocument } from "../../src/core/verify.js";
+import { verifyClaims, buildReport } from "../../src/core/verify.js";
 import { fetchSource } from "../../src/core/fetcher.js";
 import { extractCitations } from "../../src/extract/citations.js";
 import { OpenAICompatibleJudge } from "../../src/judge/providers.js";
@@ -61,6 +61,44 @@ function buildJudge(env: Env): JudgeClient {
     });
   }
   return new WorkersAiJudge(env.AI);
+}
+
+/** Verdict cache: repeated audits of the same claim+source are near-free.
+ * Definitive verdicts cached 7 days; could_not_fetch is never cached (transient). */
+async function sha256(text: string): Promise<string> {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function cachedVerifyClaims(
+  env: Env,
+  judge: JudgeClient,
+  claims: { id: string; text: string; source: string; context?: string }[],
+) {
+  const keys = await Promise.all(claims.map((c) => sha256(`${c.text}|${c.source}`)));
+  const cached = await Promise.all(keys.map((k) => env.CACHE.get(`v1:${k}`, "json")));
+  const misses = claims.filter((_, i) => !cached[i]);
+  const fresh = misses.length ? await verifyClaims(judge, misses) : [];
+  const freshById = new Map(fresh.map((v) => [v.claimId, v]));
+  const results = claims.map((c, i) => {
+    const hit = cached[i] as Awaited<ReturnType<typeof verifyClaims>>[number] | null;
+    return hit ? { ...hit, claimId: c.id } : freshById.get(c.id)!;
+  });
+  await Promise.all(
+    fresh
+      .filter((v) => v.verdict !== "could_not_fetch")
+      .map((v, ) => {
+        const idx = claims.findIndex((c) => c.id === v.claimId);
+        return env.CACHE.put(`v1:${keys[idx]}`, JSON.stringify(v), { expirationTtl: 604800 });
+      }),
+  );
+  return results;
+}
+
+async function auditDocument(env: Env, judge: JudgeClient, documentText: string) {
+  const claims = extractCitations(documentText);
+  const verdicts = await cachedVerifyClaims(env, judge, claims);
+  return buildReport(verdicts);
 }
 
 function json(data: unknown, status = 200, extra: Record<string, string> = {}): Response {
@@ -154,11 +192,11 @@ async function callTool(env: Env, name: string, args: Record<string, unknown>): 
     const claims = (args.claims as { text: string; source: string; context?: string }[]).map(
       (c, i) => ({ id: `c${i + 1}`, ...c }),
     );
-    const verdicts = await verifyClaims(judge, claims);
+    const verdicts = await cachedVerifyClaims(env, judge, claims);
     return JSON.stringify(buildReport(verdicts), null, 2);
   }
   if (name === "check_document") {
-    const report = await checkDocument(judge, String(args.document ?? ""));
+    const report = await auditDocument(env, judge, String(args.document ?? ""));
     return JSON.stringify(report, null, 2);
   }
   if (name === "check_links") {
@@ -300,12 +338,12 @@ export default {
         if (!claims.length || claims.length > 25) {
           return json({ error: "claims must contain 1-25 items" }, 400);
         }
-        const verdicts = await verifyClaims(buildJudge(env), claims);
+        const verdicts = await cachedVerifyClaims(env, buildJudge(env), claims);
         return json(buildReport(verdicts));
       }
 
       if (url.pathname === "/api/check") {
-        const report = await checkDocument(buildJudge(env), String(body.document ?? ""));
+        const report = await auditDocument(env, buildJudge(env), String(body.document ?? ""));
         return json(report);
       }
 
@@ -319,13 +357,13 @@ export default {
         const writer = new OpenAICompatibleJudge({
           baseUrl: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
           apiKey: env.DASHSCOPE_API_KEY,
-          model: env.DASHSCOPE_MODEL ?? "qwen3.7-plus",
+          model: "qwen3.7-plus",
         });
         const draft = await writer.complete(
-          "You are a research writer. Write factual, citation-dense prose. Use markdown inline links as citations. Do not fabricate URLs if you are unsure - but cite confidently as instructed.",
-          `Write a single 3-5 sentence paragraph about: ${topic}. Include 3 inline markdown citations to specific web sources (real URLs).`,
+          "You are a research writer. Write factual, citation-dense prose. Every citation MUST be a markdown inline link in the exact form [anchor text](https://full-url) placed inside the sentence it supports. Never use numbered references like [1] or footnotes.",
+          `Write a single 3-5 sentence paragraph about: ${topic}. Include exactly 3 citations as markdown inline links [anchor](https://...) to specific web pages.`,
         );
-        const report = await checkDocument(buildJudge(env), draft);
+        const report = await auditDocument(env, buildJudge(env), draft);
         const bad =
           report.summary.contradicted + report.summary.unsupported;
         const approved = bad === 0 && report.summary.total > 0;

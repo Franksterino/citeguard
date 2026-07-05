@@ -3,3 +3,5 @@ dist/
 .env
 *.local
 apify/storage/
+hackathon/video-raw/
+hackathon/*.mp4

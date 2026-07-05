@@ -1,0 +1,10 @@
+import { chromium } from "playwright";
+import { pathToFileURL } from "url";
+const svgPath = process.argv[2], out = process.argv[3];
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 960, height: 640 }, deviceScaleFactor: 2 });
+await page.goto(pathToFileURL(svgPath).href);
+await page.waitForTimeout(500);
+await page.screenshot({ path: out });
+await browser.close();
+console.log("PNG written:", out);

@@ -72,6 +72,7 @@ export const DEMO_HTML = `<!doctype html>
 function esc(s) { return (s || "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 
 function renderReport(r) {
+  if (!r.verdicts.length) return '<p class="hint">No verifiable citations found in the text — nothing to audit.</p>';
   let h = '<p class="score">' + r.integrityScore + '/100</p><p class="hint">citation integrity score — ' +
     r.summary.supported + ' supported · ' + r.summary.partiallySupported + ' partial · ' +
     r.summary.contradicted + ' contradicted · ' + r.summary.unsupported + ' unsupported · ' +

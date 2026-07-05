@@ -48,6 +48,7 @@
     "@types/node": "^22.0.0",
     "apify-cli": "^1.7.0",
     "esbuild": "^0.28.1",
+    "playwright": "^1.61.1",
     "tsx": "^4.19.0",
     "typescript": "^5.6.0",
     "vitest": "^2.1.0",
