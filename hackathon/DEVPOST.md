@@ -80,6 +80,6 @@ TypeScript · Qwen Cloud (qwen3.7-plus, DashScope Intl) · Cloudflare Workers + 
 - [ ] Text description: paste sections above
 - [ ] Architecture diagram: `architecture.svg` (convert to PNG for upload)
 - [ ] Proof of Alibaba Cloud deployment: `worker/src/index.ts` + `src/judge/providers.ts` (DashScope Intl API integration) — include file link + screenshot of Qwen Cloud console usage
-- [ ] Demo video: < 3 min, YouTube link
+- [x] Demo video: https://youtu.be/faqHbISzVaU (53 s)
 - [ ] Optional blog post link (Blog Post Award)
 - [ ] AI-use disclosure: project built with AI assistance (Claude) under human direction — disclosed in repo README

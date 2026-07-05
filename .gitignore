@@ -5,3 +5,5 @@ dist/
 apify/storage/
 hackathon/video-raw/
 hackathon/*.mp4
+.npmrc
+server.json

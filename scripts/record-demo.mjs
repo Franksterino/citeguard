@@ -11,6 +11,24 @@ const ctx = await browser.newContext({
 });
 const page = await ctx.newPage();
 
+// Playwright captures frames only on repaint; a tiny always-animating element
+// forces ~constant repaints so the recording is smooth instead of ~5 fps.
+await page.addInitScript(() => {
+  const tick = () => {
+    let el = document.getElementById("__fps");
+    if (!el && document.body) {
+      el = document.createElement("div");
+      el.id = "__fps";
+      el.style.cssText =
+        "position:fixed;top:0;left:0;width:2px;height:2px;opacity:0.01;z-index:9998;pointer-events:none;background:#fff";
+      document.body.appendChild(el);
+    }
+    if (el) el.style.transform = `translateX(${performance.now() % 3}px)`;
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+});
+
 async function caption(text) {
   await page.evaluate((t) => {
     let el = document.getElementById("__cap");
@@ -27,11 +45,23 @@ async function caption(text) {
   }, text);
 }
 
-async function scrollSlow(px, steps = 8) {
-  for (let i = 0; i < steps; i++) {
-    await page.mouse.wheel(0, px / steps);
-    await page.waitForTimeout(350);
-  }
+async function scrollSlow(px, durationMs = 3000) {
+  await page.evaluate(
+    ({ px, durationMs }) =>
+      new Promise((resolve) => {
+        const start = performance.now();
+        const from = window.scrollY;
+        const step = (now) => {
+          const t = Math.min((now - start) / durationMs, 1);
+          const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+          window.scrollTo(0, from + px * ease);
+          if (t < 1) requestAnimationFrame(step);
+          else resolve(undefined);
+        };
+        requestAnimationFrame(step);
+      }),
+    { px, durationMs },
+  );
 }
 
 // --- Scene 1: intro + audit ---
@@ -45,7 +75,7 @@ await page.click("#auditBtn");
 await page.waitForSelector("#auditOut .score", { timeout: 120000 });
 await caption("Verdicts with verbatim evidence quotes — the Moon myth is CONTRADICTED by the very page it cites.");
 await page.waitForTimeout(2500);
-await scrollSlow(700);
+await scrollSlow(700, 3000);
 await page.waitForTimeout(3000);
 
 // --- Scene 2: agent society ---
@@ -58,7 +88,7 @@ await caption("Writer agent (qwen) drafting a cited paragraph — this is happen
 await page.waitForSelector("#agentOut h3", { timeout: 180000 });
 await caption("Now the verifier fetched each source and judged every claim. Unsupported citations = BLOCKED.");
 await page.waitForTimeout(2000);
-await scrollSlow(900, 10);
+await scrollSlow(900, 3500);
 await page.waitForTimeout(4000);
 
 // --- Scene 3: end card ---
