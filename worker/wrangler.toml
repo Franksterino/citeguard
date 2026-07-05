@@ -1,0 +1,19 @@
+name = "citeguard"
+main = "src/index.ts"
+compatibility_date = "2026-06-01"
+compatibility_flags = ["nodejs_compat"]
+account_id = "d54321e33278183a825201f78c20f829"
+
+[observability]
+enabled = true
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "PLACEHOLDER_CREATE_WITH_WRANGLER"
+
+[ai]
+binding = "AI"
+
+[vars]
+# Free tier: requests per day per IP.
+FREE_DAILY_LIMIT = "50"
