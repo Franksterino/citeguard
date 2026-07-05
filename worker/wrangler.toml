@@ -9,7 +9,7 @@ enabled = true
 
 [[kv_namespaces]]
 binding = "CACHE"
-id = "PLACEHOLDER_CREATE_WITH_WRANGLER"
+id = "2b8b81b18e8f430fbfa8345bfa4f9ed9"
 
 [ai]
 binding = "AI"

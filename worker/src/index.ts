@@ -39,8 +39,15 @@ class WorkersAiJudge implements JudgeClient {
       ],
       temperature: 0,
       max_tokens: 512,
-    } as never)) as { response?: string };
-    return result.response ?? "";
+    } as never)) as Record<string, unknown>;
+    // Workers AI response shape varies by model/runtime version.
+    const raw =
+      result?.response ??
+      (result?.result as Record<string, unknown> | undefined)?.response ??
+      (result?.choices as { message?: { content?: string } }[] | undefined)?.[0]?.message
+        ?.content ??
+      "";
+    return typeof raw === "string" ? raw : JSON.stringify(raw);
   }
 }
 
