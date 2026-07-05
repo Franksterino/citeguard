@@ -16,6 +16,7 @@ import { fetchSource } from "../../src/core/fetcher.js";
 import { extractCitations } from "../../src/extract/citations.js";
 import { OpenAICompatibleJudge } from "../../src/judge/providers.js";
 import type { JudgeClient } from "../../src/types.js";
+import { DEMO_HTML } from "./demo.js";
 
 interface Env {
   CACHE: KVNamespace;
@@ -254,6 +255,12 @@ export default {
       });
     }
 
+    if (request.method === "GET" && (url.pathname === "/demo" || url.pathname === "/demo/")) {
+      return new Response(DEMO_HTML, {
+        headers: { "content-type": "text/html; charset=utf-8" },
+      });
+    }
+
     if (request.method === "GET" && url.pathname === "/") {
       return json({
         name: "CiteGuard",
@@ -300,6 +307,29 @@ export default {
       if (url.pathname === "/api/check") {
         const report = await checkDocument(buildJudge(env), String(body.document ?? ""));
         return json(report);
+      }
+
+      if (url.pathname === "/api/agent-demo") {
+        if (!env.DASHSCOPE_API_KEY) {
+          return json({ error: "demo_unavailable", message: "Writer agent requires the Qwen judge to be configured." }, 503);
+        }
+        const topic = String(body.topic ?? "").slice(0, 200).trim();
+        if (!topic) return json({ error: "topic required" }, 400);
+
+        const writer = new OpenAICompatibleJudge({
+          baseUrl: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+          apiKey: env.DASHSCOPE_API_KEY,
+          model: env.DASHSCOPE_MODEL ?? "qwen3.7-plus",
+        });
+        const draft = await writer.complete(
+          "You are a research writer. Write factual, citation-dense prose. Use markdown inline links as citations. Do not fabricate URLs if you are unsure - but cite confidently as instructed.",
+          `Write a single 3-5 sentence paragraph about: ${topic}. Include 3 inline markdown citations to specific web sources (real URLs).`,
+        );
+        const report = await checkDocument(buildJudge(env), draft);
+        const bad =
+          report.summary.contradicted + report.summary.unsupported;
+        const approved = bad === 0 && report.summary.total > 0;
+        return json({ draft, report, approved });
       }
 
       if (url.pathname === "/api/links") {
