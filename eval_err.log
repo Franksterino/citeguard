@@ -1,0 +1,5 @@
+Evaluating 45 claims with judge model: qwen3.7-plus
+Wrong verdicts:
+ history-5: expected contradicted, got partially_supported (conf 0.95)
+ history-8: expected partially_supported, got contradicted (conf 0.95)
+ tech-6: expected partially_supported, got contradicted (conf 1)

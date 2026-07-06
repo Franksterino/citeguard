@@ -235,7 +235,7 @@ async function handleMcp(env: Env, request: Request): Promise<Response> {
           protocolVersion:
             (msg.params?.protocolVersion as string) ?? "2025-03-26",
           capabilities: { tools: {} },
-          serverInfo: { name: "citeguard", version: "0.1.0" },
+          serverInfo: { name: "citeguard", version: "0.1.2" },
         },
       });
     } else if (msg.method === "tools/list") {

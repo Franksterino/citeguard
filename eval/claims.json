@@ -1,0 +1,365 @@
+{
+ "description": "Hand-crafted, adversarially label-verified claim/source pairs for CiteGuard calibration. Sources: stable Wikipedia articles.",
+ "items": [
+  {
+   "id": "science-1",
+   "claim": "A typical plant cell contains roughly 10 to 100 chloroplasts.",
+   "source": "https://en.wikipedia.org/wiki/Photosynthesis",
+   "expected": "supported",
+   "quote": "A typical plant cell contains about 10 to 100 chloroplasts.",
+   "rationale": "Close paraphrase of the page's stated chloroplast count per typical plant cell, with no altered detail."
+  },
+  {
+   "id": "science-2",
+   "claim": "The two strands of DNA run in opposite directions to each other and are therefore antiparallel.",
+   "source": "https://en.wikipedia.org/wiki/DNA",
+   "expected": "supported",
+   "quote": "The two strands of DNA run in opposite directions to each other and are thus antiparallel.",
+   "rationale": "Near-verbatim restatement of the page's sentence on strand orientation."
+  },
+  {
+   "id": "science-3",
+   "claim": "The four bases found in DNA are adenine, cytosine, guanine, and thymine.",
+   "source": "https://en.wikipedia.org/wiki/DNA",
+   "expected": "supported",
+   "quote": "The four bases found in DNA are adenine (A), cytosine (C), guanine (G) and thymine (T).",
+   "rationale": "Direct paraphrase of the page's sentence naming the four DNA bases."
+  },
+  {
+   "id": "science-4",
+   "claim": "A typical plant cell contains about 10 to 500 chloroplasts.",
+   "source": "https://en.wikipedia.org/wiki/Photosynthesis",
+   "expected": "partially_supported",
+   "quote": "A typical plant cell contains about 10 to 100 chloroplasts.",
+   "rationale": "Core fact (chloroplast count per typical cell) is present, but the upper bound is inflated from 100 to 500, a number the page does not state."
+  },
+  {
+   "id": "science-5",
+   "claim": "Fossils of what are thought to be filamentous photosynthetic organisms have been dated at 3.4 million years old.",
+   "source": "https://en.wikipedia.org/wiki/Photosynthesis",
+   "expected": "partially_supported",
+   "quote": "Fossils of what are thought to be filamentous photosynthetic organisms have been dated at 3.4 billion years old.",
+   "rationale": "The fossil-dating fact is on the page, but the age is altered from 3.4 billion to 3.4 million years, a single material change."
+  },
+  {
+   "id": "science-6",
+   "claim": "In 1962, James Watson and Francis Crick proposed that the structure of DNA is a double helix.",
+   "source": "https://en.wikipedia.org/wiki/DNA",
+   "expected": "partially_supported",
+   "quote": "In the same journal, James Watson and Francis Crick presented their molecular modeling analysis of the DNA X-ray diffraction patterns to suggest that the structure was a double helix.",
+   "rationale": "The page credits Watson and Crick with the double-helix proposal, but the added year 1962 is a material detail the page does not state (their model was published in 1953)."
+  },
+  {
+   "id": "science-7",
+   "claim": "The green part of the light spectrum is absorbed rather than reflected by plants.",
+   "source": "https://en.wikipedia.org/wiki/Photosynthesis",
+   "expected": "contradicted",
+   "quote": "The green part of the light spectrum is not absorbed but is reflected, which is the reason that most plants have a green color.",
+   "rationale": "The page states the opposite: the green part of the spectrum is not absorbed but reflected."
+  },
+  {
+   "id": "science-8",
+   "claim": "In DNA, adenine pairs with guanine and cytosine pairs with thymine.",
+   "source": "https://en.wikipedia.org/wiki/DNA",
+   "expected": "contradicted",
+   "quote": "Adenine pairs with thymine and guanine pairs with cytosine, forming A-T and G-C base pairs.",
+   "rationale": "The page states the opposite pairing: adenine with thymine and guanine with cytosine."
+  },
+  {
+   "id": "science-9",
+   "claim": "Oxygen is a raw material consumed by the light-dependent reactions rather than a product of them.",
+   "source": "https://en.wikipedia.org/wiki/Photosynthesis",
+   "expected": "contradicted",
+   "quote": "Oxygen is a waste product of light-dependent reactions, but the majority of organisms on Earth use oxygen and its energy for cellular respiration.",
+   "rationale": "The page states oxygen is a waste product (output) of the light-dependent reactions, the opposite of being a consumed reactant."
+  },
+  {
+   "id": "science-10",
+   "claim": "A single mature tree can absorb roughly 22 kilograms of carbon dioxide per year through photosynthesis.",
+   "source": "https://en.wikipedia.org/wiki/Photosynthesis",
+   "expected": "unsupported",
+   "quote": "",
+   "rationale": "On-topic and plausible, but the page contains no per-tree carbon dioxide absorption figure."
+  },
+  {
+   "id": "science-11",
+   "claim": "DNA-based data storage can hold the contents of a large library in a volume the size of a sugar cube.",
+   "source": "https://en.wikipedia.org/wiki/DNA",
+   "expected": "unsupported",
+   "quote": "",
+   "rationale": "Relates to DNA as an information carrier and is plausible, but this data-storage density claim does not appear on the page."
+  },
+  {
+   "id": "science-12",
+   "claim": "Under ideal frozen conditions, DNA fragments can be recovered from remains more than one million years old.",
+   "source": "https://en.wikipedia.org/wiki/DNA",
+   "expected": "unsupported",
+   "quote": "",
+   "rationale": "On-topic (ancient DNA) and plausible, but no such preservation-age claim is present on the page."
+  },
+  {
+   "id": "history-1",
+   "claim": "Apollo 11 was launched by Saturn V AS-506 on July 16, 1969, at 13:32 UTC.",
+   "source": "https://en.wikipedia.org/wiki/Apollo_11",
+   "expected": "supported",
+   "quote": "Saturn V AS-506 launched Apollo 11 on July 16, 1969, at 13:32:00 UTC (9:32:00 EDT).",
+   "rationale": "Close paraphrase of the page's launch sentence; rocket designation, date, and time all match exactly."
+  },
+  {
+   "id": "history-2",
+   "claim": "While Armstrong and Aldrin were on the lunar surface, Michael Collins remained in lunar orbit aboard the command module Columbia.",
+   "source": "https://en.wikipedia.org/wiki/Apollo_11",
+   "expected": "supported",
+   "quote": "Armstrong and Aldrin descended to the surface aboard the LM Eagle, landing in the Sea of Tranquility (Mare Tranquillitatis) on July 20 at 20:17 UTC while Collins remained in lunar orbit aboard the CM Columbia.",
+   "rationale": "Directly restates the page's statement that Collins stayed in lunar orbit aboard the CM Columbia while the other two descended."
+  },
+  {
+   "id": "history-3",
+   "claim": "Armstrong and Aldrin collected 31.5 kg of lunar material during their moonwalk.",
+   "source": "https://en.wikipedia.org/wiki/Apollo_11",
+   "expected": "partially_supported",
+   "quote": "Together they spent around two and a half hours walking on the surface, planting an American flag, speaking by telephone with President Richard Nixon, deploying scientific instruments, and collecting 21.5 kg (47.5 lb) of lunar material.",
+   "rationale": "Core fact (they collected lunar material during the moonwalk) is on the page, but the mass is inflated: the page says 21.5 kg, not 31.5 kg. Exactly one material detail altered."
+  },
+  {
+   "id": "history-4",
+   "claim": "Buzz Aldrin was the first human to walk on the Moon.",
+   "source": "https://en.wikipedia.org/wiki/Apollo_11",
+   "expected": "contradicted",
+   "quote": "Armstrong became the first human to walk on the Moon approximately six hours after landing, followed by Aldrin nineteen minutes later.",
+   "rationale": "The page states the opposite: Armstrong was first, and Aldrin followed nineteen minutes later."
+  },
+  {
+   "id": "history-5",
+   "claim": "The Apollo 11 crew splashed down in the Atlantic Ocean on July 24.",
+   "source": "https://en.wikipedia.org/wiki/Apollo_11",
+   "expected": "contradicted",
+   "quote": "the crew returned safely to Earth on July 24, splashing down in the Pacific Ocean",
+   "rationale": "The page clearly states the splashdown was in the Pacific Ocean; the claim asserts the opposite ocean for the same clearly stated event."
+  },
+  {
+   "id": "history-6",
+   "claim": "The Apollo 11 astronauts wore Omega Speedmaster chronograph watches during the mission.",
+   "source": "https://en.wikipedia.org/wiki/Apollo_11",
+   "expected": "unsupported",
+   "quote": "",
+   "rationale": "On-topic and true in reality, but the page never mentions Omega, Speedmaster, or chronographs anywhere (verified by full-text search of the current article)."
+  },
+  {
+   "id": "history-7",
+   "claim": "Construction of the Berlin Wall was begun by the East German government on 13 August 1961.",
+   "source": "https://en.wikipedia.org/wiki/Berlin_Wall",
+   "expected": "supported",
+   "quote": "Construction of the Berlin Wall was commenced by the government of the GDR on 13 August 1961.",
+   "rationale": "Close paraphrase of the page's construction sentence; the GDR is East Germany's government and the date matches exactly."
+  },
+  {
+   "id": "history-8",
+   "claim": "The Berlin Wall was more than 200 kilometres long.",
+   "source": "https://en.wikipedia.org/wiki/Berlin_Wall",
+   "expected": "partially_supported",
+   "quote": "The Berlin Wall was more than 140 kilometres (87 mi) long.",
+   "rationale": "Core fact (the Wall's overall length is described as 'more than X kilometres') is on the page, but the number is inflated: the page says more than 140 km (87 mi), not 200 km."
+  },
+  {
+   "id": "history-9",
+   "claim": "Full demolition of the Berlin Wall concluded in 1992.",
+   "source": "https://en.wikipedia.org/wiki/Berlin_Wall",
+   "expected": "partially_supported",
+   "quote": "with full demolition of the Wall beginning on 13 June 1990 and concluding in 1994",
+   "rationale": "Core fact (full demolition of the Wall was carried out and concluded) is on the page, but the end year is wrong: the page says demolition concluded in 1994, not 1992."
+  },
+  {
+   "id": "history-10",
+   "claim": "The Berlin Wall encircled East Berlin, separating it from West Berlin.",
+   "source": "https://en.wikipedia.org/wiki/Berlin_Wall",
+   "expected": "contradicted",
+   "quote": "was a guarded concrete barrier that encircled West Berlin from 1961 to 1989, separating it from East Berlin and the German Democratic Republic (GDR; East Germany)",
+   "rationale": "The page states the exact opposite geometry: the Wall encircled West Berlin, separating it from East Berlin and the GDR."
+  },
+  {
+   "id": "history-12",
+   "claim": "In October 1964, 57 East Germans escaped to West Berlin through an escape tunnel known as 'Tunnel 57'.",
+   "source": "https://en.wikipedia.org/wiki/Berlin_Wall",
+   "expected": "unsupported",
+   "quote": "",
+   "rationale": "The page discusses escape tunnels generally (e.g., a September 1962 tunnel escape and 70 tunnels dug) but never mentions Tunnel 57 or the October 1964 escape of 57 people (verified by full-text search)."
+  },
+  {
+   "id": "tech-1",
+   "claim": "The Linux kernel was created by Linus Torvalds in 1991.",
+   "source": "https://en.wikipedia.org/wiki/Linux_kernel",
+   "expected": "supported",
+   "quote": "The kernel was created by Linus Torvalds in 1991 and was soon adopted as the kernel for the GNU operating system",
+   "rationale": "Close paraphrase of the article's lead sentence about the kernel's origin; creator and year match exactly."
+  },
+  {
+   "id": "tech-2",
+   "claim": "The Linux kernel is provided under version 2 of the GNU General Public License.",
+   "source": "https://en.wikipedia.org/wiki/Linux_kernel",
+   "expected": "supported",
+   "quote": "Linux is provided under the GNU General Public License version 2, although it contains files under other compatible licenses.",
+   "rationale": "The page states the license verbatim; the claim is a direct restatement of the licensing fact."
+  },
+  {
+   "id": "tech-3",
+   "claim": "The transformer architecture was first proposed in the 2017 paper \"Attention Is All You Need\" by researchers at Google.",
+   "source": "https://en.wikipedia.org/wiki/Transformer_(deep_learning)",
+   "expected": "supported",
+   "quote": "The original version of the transformer architecture was proposed in the 2017 paper \"Attention Is All You Need\" by researchers at Google.",
+   "rationale": "Direct paraphrase of the article's opening statement about the architecture's origin; paper title, year, and affiliation all match."
+  },
+  {
+   "id": "tech-4",
+   "claim": "Initial support for the Rust programming language was added in Linux 6.1, which was released in December 2023.",
+   "source": "https://en.wikipedia.org/wiki/Linux_kernel",
+   "expected": "partially_supported",
+   "quote": "Initial support for the Rust programming language was added in Linux 6.1, which was released in December 2022",
+   "rationale": "Core fact (Rust support added in Linux 6.1) is on the page, but the release date is altered: the page says December 2022, not December 2023. Exactly one material detail changed."
+  },
+  {
+   "id": "tech-5",
+   "claim": "In March 1994, Linux 1.0.0 was released with about 250,000 lines of code.",
+   "source": "https://en.wikipedia.org/wiki/Linux_kernel",
+   "expected": "partially_supported",
+   "quote": "In March 1994, Linux 1.0.0 was released with 176,250 lines of code.",
+   "rationale": "Release date and version are correct per the page, but the line count is inflated: the page says 176,250 lines, not about 250,000. Exactly one material detail altered."
+  },
+  {
+   "id": "tech-6",
+   "claim": "In October 2019, Microsoft started using BERT to process search queries.",
+   "source": "https://en.wikipedia.org/wiki/Transformer_(deep_learning)",
+   "expected": "partially_supported",
+   "quote": "In October 2019, Google started using BERT to process search queries.",
+   "rationale": "The core fact (BERT deployed for search queries in October 2019) is on the page, but the actor is wrong: the page attributes it to Google, not Microsoft. Exactly one material detail altered."
+  },
+  {
+   "id": "tech-7",
+   "claim": "None of the world's 500 most powerful supercomputers run on Linux.",
+   "source": "https://en.wikipedia.org/wiki/Linux_kernel",
+   "expected": "contradicted",
+   "quote": "Most websites run on Linux-based operating systems, and all of the world's 500 most powerful supercomputers run on Linux.",
+   "rationale": "The claim negates a clearly stated fact: the page says ALL of the world's 500 most powerful supercomputers run on Linux."
+  },
+  {
+   "id": "tech-8",
+   "claim": "Transformers require more training time than earlier recurrent neural architectures such as LSTM.",
+   "source": "https://en.wikipedia.org/wiki/Transformer_(deep_learning)",
+   "expected": "contradicted",
+   "quote": "Transformers have the advantage of having no recurrent units, therefore requiring less training time than earlier recurrent neural architectures (RNNs) such as long short-term memory (LSTM).",
+   "rationale": "The page states the opposite: transformers require LESS training time than earlier recurrent architectures such as LSTM."
+  },
+  {
+   "id": "tech-9",
+   "claim": "The original transformer model used a decoder-only architecture.",
+   "source": "https://en.wikipedia.org/wiki/Transformer_(deep_learning)",
+   "expected": "contradicted",
+   "quote": "the original transformer model used an encoder–decoder architecture",
+   "rationale": "The page explicitly states the original transformer used an encoder–decoder architecture, the opposite of decoder-only."
+  },
+  {
+   "id": "tech-10",
+   "claim": "The Linux kernel mailing list receives more than 1,000 messages per day.",
+   "source": "https://en.wikipedia.org/wiki/Linux_kernel",
+   "expected": "unsupported",
+   "quote": "",
+   "rationale": "On-topic and plausible: the page discusses the LKML as the venue for patch submissions, but it gives no figure for mailing-list traffic volume anywhere. Verified absent by text search."
+  },
+  {
+   "id": "tech-12",
+   "claim": "Google filed a patent application covering the transformer architecture in 2018.",
+   "source": "https://en.wikipedia.org/wiki/Transformer_(deep_learning)",
+   "expected": "unsupported",
+   "quote": "",
+   "rationale": "Plausible and on-topic given the page credits Google researchers with the architecture, but the page contains no mention of patents at all. Verified absent by text search."
+  },
+  {
+   "id": "geo-1",
+   "claim": "The Danube is the second-longest river in Europe, exceeded only by the Volga.",
+   "source": "https://en.wikipedia.org/wiki/Danube",
+   "expected": "supported",
+   "quote": "a river in Europe, the second-longest after the Volga in Russia",
+   "rationale": "Close paraphrase of the article's opening sentence, which states the Danube is the second-longest river in Europe after the Volga."
+  },
+  {
+   "id": "geo-2",
+   "claim": "The Danube once formed a frontier of the Roman Empire.",
+   "source": "https://en.wikipedia.org/wiki/Danube",
+   "expected": "supported",
+   "quote": "it was once a frontier of the Roman Empire",
+   "rationale": "Directly stated in the article's lead paragraph."
+  },
+  {
+   "id": "geo-3",
+   "claim": "Tenzing Norgay and Edmund Hillary made the first documented ascent of Mount Everest in 1953.",
+   "source": "https://en.wikipedia.org/wiki/Mount_Everest",
+   "expected": "supported",
+   "quote": "Tenzing Norgay and Edmund Hillary made the first documented ascent of Everest in 1953, using the Southeast Ridge route.",
+   "rationale": "Close paraphrase of an explicit sentence in the article's lead section."
+  },
+  {
+   "id": "geo-4",
+   "claim": "Originating in Germany, the Danube flows southeast for 2,950 km.",
+   "source": "https://en.wikipedia.org/wiki/Danube",
+   "expected": "partially_supported",
+   "quote": "Originating in Germany, the Danube flows southeast for 2,850 km (1,770 mi)",
+   "rationale": "Core fact (origin in Germany, southeast flow, length) is on the page, but the length is altered: the page says 2,850 km, not 2,950 km. Exactly one material detail changed."
+  },
+  {
+   "id": "geo-5",
+   "claim": "The Royal Geographical Society officially adopted the name 'Mount Everest' in 1885.",
+   "source": "https://en.wikipedia.org/wiki/Mount_Everest",
+   "expected": "partially_supported",
+   "quote": "the Royal Geographical Society officially adopted the name \"Mount Everest\" in 1865",
+   "rationale": "The adoption of the name by the Royal Geographical Society is on the page, but the year is altered: the page says 1865, not 1885. Exactly one material detail changed."
+  },
+  {
+   "id": "geo-6",
+   "claim": "In 2020, a joint survey by Nepalese and American authorities measured Mount Everest's height as 8,848.86 m.",
+   "source": "https://en.wikipedia.org/wiki/Mount_Everest",
+   "expected": "partially_supported",
+   "quote": "Its height was most recently measured in 2020 through a joint survey by Nepalese and Chinese authorities as 8,848.86 m",
+   "rationale": "The 2020 joint survey and the 8,848.86 m figure are on the page, but one actor is altered: the survey was by Nepalese and Chinese authorities, not American. Exactly one material detail changed."
+  },
+  {
+   "id": "geo-7",
+   "claim": "The Danube has no navigable link to the North Sea.",
+   "source": "https://en.wikipedia.org/wiki/Danube",
+   "expected": "contradicted",
+   "quote": "The Danube is linked to the North Sea via the Rhine–Main–Danube Canal",
+   "rationale": "The page states the opposite: the Danube is connected to the North Sea via the Rhine–Main–Danube Canal."
+  },
+  {
+   "id": "geo-8",
+   "claim": "George Everest welcomed having the mountain named after him.",
+   "source": "https://en.wikipedia.org/wiki/Mount_Everest",
+   "expected": "contradicted",
+   "quote": "Everest himself opposed the honour",
+   "rationale": "The page states the opposite: George Everest opposed the honour and objected that his name could not be written in Hindi or pronounced by locals."
+  },
+  {
+   "id": "geo-9",
+   "claim": "The standard route on Mount Everest poses substantial technical climbing challenges.",
+   "source": "https://en.wikipedia.org/wiki/Mount_Everest",
+   "expected": "contradicted",
+   "quote": "While not posing substantial technical climbing challenges on the standard route",
+   "rationale": "The page explicitly negates this, stating the standard route does not pose substantial technical climbing challenges (the dangers are altitude, weather, wind, and avalanches instead)."
+  },
+  {
+   "id": "econ-1",
+   "claim": "Core inflation is an inflation measure covering a subset of consumer prices that leaves out food and energy prices.",
+   "source": "https://en.wikipedia.org/wiki/Inflation",
+   "expected": "supported",
+   "quote": "Core inflation is a measure of inflation for a subset of consumer prices that excludes food and energy prices.",
+   "rationale": "Close paraphrase of the article's exact definition of core inflation in the Measures section; no details added or altered."
+  },
+  {
+   "id": "econ-3",
+   "claim": "The European Central Bank holds the exclusive right to authorise the issuance of euro banknotes.",
+   "source": "https://en.wikipedia.org/wiki/European_Central_Bank",
+   "expected": "supported",
+   "quote": "The ECB has the exclusive right to authorise the issuance of euro banknotes.",
+   "rationale": "Near-verbatim restatement of the article's sentence on the ECB's banknote-issuance monopoly; verified verbatim on the page."
+  }
+ ]
+}

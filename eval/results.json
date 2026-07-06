@@ -1,0 +1,362 @@
+{
+ "summary": {
+  "judgeModel": "qwen3.7-plus",
+  "total": 45,
+  "judgeable": 45,
+  "couldNotFetch": 0,
+  "uncertain": 0,
+  "exactAccuracy": 0.933,
+  "gateAccuracy": 0.933,
+  "confusionMatrix": {
+   "supported": {
+    "supported": 14,
+    "partially_supported": 0,
+    "contradicted": 0,
+    "unsupported": 0,
+    "uncertain": 0,
+    "could_not_fetch": 0
+   },
+   "partially_supported": {
+    "supported": 0,
+    "partially_supported": 10,
+    "contradicted": 2,
+    "unsupported": 0,
+    "uncertain": 0,
+    "could_not_fetch": 0
+   },
+   "contradicted": {
+    "supported": 0,
+    "partially_supported": 1,
+    "contradicted": 11,
+    "unsupported": 0,
+    "uncertain": 0,
+    "could_not_fetch": 0
+   },
+   "unsupported": {
+    "supported": 0,
+    "partially_supported": 0,
+    "contradicted": 0,
+    "unsupported": 7,
+    "uncertain": 0,
+    "could_not_fetch": 0
+   }
+  }
+ },
+ "rows": [
+  {
+   "id": "science-1",
+   "expected": "supported",
+   "got": "supported",
+   "confidence": 1,
+   "evidence": "A typical plant cell contains about 10 to 100 chloroplasts."
+  },
+  {
+   "id": "science-2",
+   "expected": "supported",
+   "got": "supported",
+   "confidence": 1,
+   "evidence": "The two strands of DNA run in opposite directions to each other and are thus antiparallel."
+  },
+  {
+   "id": "science-3",
+   "expected": "supported",
+   "got": "supported",
+   "confidence": 1,
+   "evidence": "The four bases found in DNA are adenine (A), cytosine (C), guanine (G) and thymine (T)."
+  },
+  {
+   "id": "science-4",
+   "expected": "partially_supported",
+   "got": "partially_supported",
+   "confidence": 1,
+   "evidence": "A typical plant cell contains about 10 to 100 chloroplasts."
+  },
+  {
+   "id": "science-5",
+   "expected": "partially_supported",
+   "got": "partially_supported",
+   "confidence": 1,
+   "evidence": "Fossils of what are thought to be filamentous photosynthetic organisms have been dated at 3.4 billion years old."
+  },
+  {
+   "id": "science-6",
+   "expected": "partially_supported",
+   "got": "partially_supported",
+   "confidence": 0.95,
+   "evidence": "An alternative analysis was proposed by Wilkins et al. in 1953... In the same journal, James Watson and Francis Crick presented their molecular modeling analysis of the DNA X-ray diffraction patterns to suggest that the structure was a double helix."
+  },
+  {
+   "id": "science-7",
+   "expected": "contradicted",
+   "got": "contradicted",
+   "confidence": 1,
+   "evidence": "The green part of the light spectrum is not absorbed but is reflected, which is the reason that most plants have a green color."
+  },
+  {
+   "id": "science-8",
+   "expected": "contradicted",
+   "got": "contradicted",
+   "confidence": 1,
+   "evidence": "Adenine pairs with thymine and guanine pairs with cytosine, forming A-T and G-C base pairs."
+  },
+  {
+   "id": "science-9",
+   "expected": "contradicted",
+   "got": "contradicted",
+   "confidence": 1,
+   "evidence": "Oxygen is a waste product of light-dependent reactions, but the majority of organisms on Earth use oxygen and its energy for cellular respiration"
+  },
+  {
+   "id": "science-10",
+   "expected": "unsupported",
+   "got": "unsupported",
+   "confidence": 1,
+   "evidence": ""
+  },
+  {
+   "id": "science-11",
+   "expected": "unsupported",
+   "got": "unsupported",
+   "confidence": 1,
+   "evidence": ""
+  },
+  {
+   "id": "science-12",
+   "expected": "unsupported",
+   "got": "unsupported",
+   "confidence": 1,
+   "evidence": ""
+  },
+  {
+   "id": "history-1",
+   "expected": "supported",
+   "got": "supported",
+   "confidence": 1,
+   "evidence": "Saturn V AS-506 launched Apollo 11 on July 16, 1969, at 13:32:00 UTC"
+  },
+  {
+   "id": "history-2",
+   "expected": "supported",
+   "got": "supported",
+   "confidence": 1,
+   "evidence": "Armstrong and Aldrin descended to the surface aboard the LM Eagle, landing in the Sea of Tranquility (Mare Tranquillitatis) on July 20 at 20:17 UTC while Collins remained in lunar orbit aboard the CM Columbia."
+  },
+  {
+   "id": "history-3",
+   "expected": "partially_supported",
+   "got": "partially_supported",
+   "confidence": 1,
+   "evidence": "collecting 21.5 kg (47.5 lb) of lunar material."
+  },
+  {
+   "id": "history-4",
+   "expected": "contradicted",
+   "got": "contradicted",
+   "confidence": 1,
+   "evidence": "Armstrong became the first human to walk on the Moon approximately six hours after landing, followed by Aldrin nineteen minutes later."
+  },
+  {
+   "id": "history-5",
+   "expected": "contradicted",
+   "got": "partially_supported",
+   "confidence": 0.95,
+   "evidence": "the crew returned safely to Earth on July 24, splashing down in the Pacific Ocean."
+  },
+  {
+   "id": "history-6",
+   "expected": "unsupported",
+   "got": "unsupported",
+   "confidence": 1,
+   "evidence": ""
+  },
+  {
+   "id": "history-7",
+   "expected": "supported",
+   "got": "supported",
+   "confidence": 1,
+   "evidence": "Construction of the Berlin Wall was commenced by the government of the GDR on 13 August 1961."
+  },
+  {
+   "id": "history-8",
+   "expected": "partially_supported",
+   "got": "contradicted",
+   "confidence": 0.95,
+   "evidence": "The Berlin Wall was more than 140 kilometres (87 mi) long."
+  },
+  {
+   "id": "history-9",
+   "expected": "partially_supported",
+   "got": "partially_supported",
+   "confidence": 1,
+   "evidence": "full demolition of the Wall beginning on 13 June 1990 and concluding in 1994"
+  },
+  {
+   "id": "history-10",
+   "expected": "contradicted",
+   "got": "contradicted",
+   "confidence": 1,
+   "evidence": "The Berlin Wall (German: Berliner Mauer, pronounced [bɛʁˌliːnɐ ˈmaʊɐ] ⓘ) was a guarded concrete barrier that encircled West Berlin from 1961 to 1989, separating it from East Berlin and the German Democratic Republic (GDR; East Germany)."
+  },
+  {
+   "id": "history-12",
+   "expected": "unsupported",
+   "got": "unsupported",
+   "confidence": 1,
+   "evidence": ""
+  },
+  {
+   "id": "tech-1",
+   "expected": "supported",
+   "got": "supported",
+   "confidence": 1,
+   "evidence": "The kernel was created by Linus Torvalds in 1991"
+  },
+  {
+   "id": "tech-2",
+   "expected": "supported",
+   "got": "supported",
+   "confidence": 1,
+   "evidence": "Linux is provided under the GNU General Public License version 2, although it contains files under other compatible licenses."
+  },
+  {
+   "id": "tech-3",
+   "expected": "supported",
+   "got": "supported",
+   "confidence": 1,
+   "evidence": "The original version of the transformer architecture was proposed in the 2017 paper \"Attention Is All You Need\" by researchers at Google."
+  },
+  {
+   "id": "tech-4",
+   "expected": "partially_supported",
+   "got": "partially_supported",
+   "confidence": 1,
+   "evidence": "Initial support for the Rust programming language was added in Linux 6.1,[121] which was released in December 2022,[122]"
+  },
+  {
+   "id": "tech-5",
+   "expected": "partially_supported",
+   "got": "partially_supported",
+   "confidence": 0.95,
+   "evidence": "In March 1994, Linux 1.0.0 was released with 176,250 lines of code."
+  },
+  {
+   "id": "tech-6",
+   "expected": "partially_supported",
+   "got": "contradicted",
+   "confidence": 1,
+   "evidence": "In October 2019, Google started using BERT to process search queries."
+  },
+  {
+   "id": "tech-7",
+   "expected": "contradicted",
+   "got": "contradicted",
+   "confidence": 1,
+   "evidence": "all of the world's 500 most powerful supercomputers run on Linux."
+  },
+  {
+   "id": "tech-8",
+   "expected": "contradicted",
+   "got": "contradicted",
+   "confidence": 1,
+   "evidence": "Transformers have the advantage of having no recurrent units, therefore requiring less training time than earlier recurrent neural architectures (RNNs) such as long short-term memory (LSTM)."
+  },
+  {
+   "id": "tech-9",
+   "expected": "contradicted",
+   "got": "contradicted",
+   "confidence": 1,
+   "evidence": "Like earlier seq2seq models, the original transformer model used an encoder–decoder architecture."
+  },
+  {
+   "id": "tech-10",
+   "expected": "unsupported",
+   "got": "unsupported",
+   "confidence": 1,
+   "evidence": ""
+  },
+  {
+   "id": "tech-12",
+   "expected": "unsupported",
+   "got": "unsupported",
+   "confidence": 1,
+   "evidence": ""
+  },
+  {
+   "id": "geo-1",
+   "expected": "supported",
+   "got": "supported",
+   "confidence": 1,
+   "evidence": "The Danube ( DAN-yoob; see also other names) is a river in Europe, the second-longest after the Volga in Russia."
+  },
+  {
+   "id": "geo-2",
+   "expected": "supported",
+   "got": "supported",
+   "confidence": 1,
+   "evidence": "A large and historically important river, it was once a frontier of the Roman Empire."
+  },
+  {
+   "id": "geo-3",
+   "expected": "supported",
+   "got": "supported",
+   "confidence": 1,
+   "evidence": "Tenzing Norgay and Edmund Hillary made the first documented ascent of Everest in 1953, using the Southeast Ridge route."
+  },
+  {
+   "id": "geo-4",
+   "expected": "partially_supported",
+   "got": "partially_supported",
+   "confidence": 1,
+   "evidence": "Originating in Germany, the Danube flows southeast for 2,850 km (1,770 mi)"
+  },
+  {
+   "id": "geo-5",
+   "expected": "partially_supported",
+   "got": "partially_supported",
+   "confidence": 1,
+   "evidence": "Despite Everest's objections, Waugh's proposed name prevailed, and the Royal Geographical Society officially adopted the name \"Mount Everest\" in 1865."
+  },
+  {
+   "id": "geo-6",
+   "expected": "partially_supported",
+   "got": "partially_supported",
+   "confidence": 0.95,
+   "evidence": "Its height was most recently measured in 2020 through a joint survey by Nepalese and Chinese authorities as 8,848.86 m"
+  },
+  {
+   "id": "geo-7",
+   "expected": "contradicted",
+   "got": "contradicted",
+   "confidence": 1,
+   "evidence": "The Danube is linked to the North Sea via the Rhine–Main–Danube Canal, connecting the Danube at Kelheim with the Main at Bamberg."
+  },
+  {
+   "id": "geo-8",
+   "expected": "contradicted",
+   "got": "contradicted",
+   "confidence": 1,
+   "evidence": "Everest himself opposed the honour, and told the Royal Geographical Society in 1857 that \"Everest\" could neither be written in Hindi nor pronounced by \"the native of India\"."
+  },
+  {
+   "id": "geo-9",
+   "expected": "contradicted",
+   "got": "contradicted",
+   "confidence": 1,
+   "evidence": "While not posing substantial technical climbing challenges on the standard route, Everest presents dangers such as altitude sickness, weather, and wind, as well as hazards from avalanches and the Khumbu Icefall."
+  },
+  {
+   "id": "econ-1",
+   "expected": "supported",
+   "got": "supported",
+   "confidence": 1,
+   "evidence": "Core inflation is a measure of inflation for a subset of consumer prices that excludes food and energy prices, which rise and fall more than other prices in the short term."
+  },
+  {
+   "id": "econ-3",
+   "expected": "supported",
+   "got": "supported",
+   "confidence": 1,
+   "evidence": "The ECB has the exclusive right to authorise the issuance of euro banknotes."
+  }
+ ]
+}

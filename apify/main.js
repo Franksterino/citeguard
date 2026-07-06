@@ -46888,8 +46888,8 @@ var SYSTEM_PROMPT = `You are a strict citation verifier. You receive a CLAIM and
 
 Verdicts:
 - "supported": the source clearly states or directly entails the claim.
-- "partially_supported": the source supports part of the claim, but a material element (number, date, actor, causality, scope) is absent or different.
-- "contradicted": the source states the opposite or an incompatible fact.
+- "partially_supported": the source supports the claim's CENTRAL assertion, but one specific detail (a number, date, quantity, name, scope) differs from or is absent in the source. Example: claim says "collected 31.5 kg of material", source says "collected 21.5 kg" - the event is real, one detail is wrong -> partially_supported.
+- "contradicted": the source states the OPPOSITE of the claim's central assertion itself. Example: claim says "X was first", source says "Y was first, then X" -> contradicted. A merely wrong number/date with the central assertion intact is partially_supported, NOT contradicted.
 - "unsupported": the source is about the topic but does not contain the claim, OR is about something else entirely.
 - "uncertain": the text is too fragmentary, garbled, or ambiguous to decide.
 

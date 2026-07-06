@@ -25,7 +25,7 @@ function getJudge(): JudgeClient {
 
 const server = new McpServer({
   name: "citeguard",
-  version: "0.1.0",
+  version: "0.1.2",
 });
 
 server.tool(
