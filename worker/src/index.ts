@@ -52,15 +52,36 @@ class WorkersAiJudge implements JudgeClient {
   }
 }
 
+/** Tries the primary judge; on any error (quota, outage) falls back. */
+class FallbackJudge implements JudgeClient {
+  readonly model: string;
+  constructor(
+    private readonly primary: JudgeClient,
+    private readonly fallback: JudgeClient,
+  ) {
+    this.model = `${primary.model}+fallback:${fallback.model}`;
+  }
+
+  async complete(systemPrompt: string, userPrompt: string): Promise<string> {
+    try {
+      return await this.primary.complete(systemPrompt, userPrompt);
+    } catch {
+      return await this.fallback.complete(systemPrompt, userPrompt);
+    }
+  }
+}
+
 function buildJudge(env: Env): JudgeClient {
+  const workersAi = new WorkersAiJudge(env.AI);
   if (env.DASHSCOPE_API_KEY) {
-    return new OpenAICompatibleJudge({
+    const qwen = new OpenAICompatibleJudge({
       baseUrl: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
       apiKey: env.DASHSCOPE_API_KEY,
-      model: env.DASHSCOPE_MODEL ?? "qwen3.7-plus",
+      model: env.DASHSCOPE_MODEL ?? "qwen-flash",
     });
+    return new FallbackJudge(qwen, workersAi);
   }
-  return new WorkersAiJudge(env.AI);
+  return workersAi;
 }
 
 /** Verdict cache: repeated audits of the same claim+source are near-free.
