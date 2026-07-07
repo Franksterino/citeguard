@@ -46951,6 +46951,65 @@ REMINDER: respond with ONLY the JSON object.`
   };
 }
 
+// src/judge/passages.ts
+var TARGET_CHARS = 6e3;
+var MIN_PARAGRAPH_CHARS = 40;
+function tokenize(text) {
+  return text.toLowerCase().match(/[a-z0-9]{2,}/g) ?? [];
+}
+var STOP = new Set(
+  "the a an and or of to in on for with by at from as is are was were be been that this it its their his her they which".split(" ")
+);
+function selectPassages(claim, content) {
+  if (content.text.length <= TARGET_CHARS) return content;
+  const paragraphs = content.text.split(/\n{2,}|(?<=\.)\s{2,}/).flatMap((p2) => p2.length > 2e3 ? p2.match(/.{1,2000}(?:\s|$)/gs) ?? [p2] : [p2]).map((p2) => p2.trim()).filter((p2) => p2.length >= MIN_PARAGRAPH_CHARS);
+  if (paragraphs.length <= 3) return { ...content, text: content.text.slice(0, TARGET_CHARS), truncated: true };
+  const claimTerms = tokenize(claim).filter((t2) => !STOP.has(t2));
+  const termSet = new Set(claimTerms);
+  const df = /* @__PURE__ */ new Map();
+  const paraTokens = paragraphs.map((p2) => tokenize(p2));
+  for (const tokens of paraTokens) {
+    for (const t2 of new Set(tokens)) {
+      if (termSet.has(t2)) df.set(t2, (df.get(t2) ?? 0) + 1);
+    }
+  }
+  const n2 = paragraphs.length;
+  const avgLen = paraTokens.reduce((s2, t2) => s2 + t2.length, 0) / n2;
+  const scores = paraTokens.map((tokens) => {
+    const tf = /* @__PURE__ */ new Map();
+    for (const t2 of tokens) if (termSet.has(t2)) tf.set(t2, (tf.get(t2) ?? 0) + 1);
+    let score = 0;
+    for (const [t2, f2] of tf) {
+      const idf = Math.log(1 + (n2 - (df.get(t2) ?? 0) + 0.5) / ((df.get(t2) ?? 0) + 0.5));
+      score += idf * (f2 * 2.2 / (f2 + 1.2 * (0.25 + 0.75 * (tokens.length / avgLen))));
+    }
+    return score;
+  });
+  const order = scores.map((s2, i2) => [s2, i2]).sort((a2, b2) => b2[0] - a2[0]);
+  const chosen = /* @__PURE__ */ new Set();
+  let budget = 0;
+  for (const [score, i2] of order) {
+    if (budget >= TARGET_CHARS) break;
+    if (score <= 0) break;
+    for (const j2 of [i2 - 1, i2, i2 + 1]) {
+      if (j2 >= 0 && j2 < n2 && !chosen.has(j2) && budget < TARGET_CHARS) {
+        chosen.add(j2);
+        budget += paragraphs[j2].length;
+      }
+    }
+  }
+  if (chosen.size === 0) {
+    return { ...content, text: content.text.slice(0, TARGET_CHARS), truncated: true };
+  }
+  const parts = [...chosen].sort((a2, b2) => a2 - b2).map((i2) => paragraphs[i2]);
+  if (!chosen.has(0)) parts.unshift(paragraphs[0]);
+  return {
+    title: content.title,
+    text: parts.join("\n\n[...]\n\n").slice(0, TARGET_CHARS + 2e3),
+    truncated: true
+  };
+}
+
 // src/core/verify.ts
 var CONCURRENCY = 4;
 async function verifyOne(judge2, claim) {
@@ -46980,7 +47039,8 @@ async function verifyOne(judge2, claim) {
       sourceStatus: status
     };
   }
-  const outcome = await judgeClaim(judge2, claim, content);
+  const focused = selectPassages(claim.text, content);
+  const outcome = await judgeClaim(judge2, claim, focused);
   return {
     claimId: claim.id,
     claim: claim.text,

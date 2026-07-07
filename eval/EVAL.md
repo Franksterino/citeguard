@@ -16,15 +16,19 @@ Honest numbers on a labeled test set, because a verifier that overclaims is wors
 
 Dataset: [`claims.json`](./claims.json) · Runner: [`run_eval.mjs`](./run_eval.mjs) · Raw output: [`results.json`](./results.json)
 
-## Results (2026-07-06, v0.1.2)
+## Results (2026-07-07, v0.1.3)
 
-| Metric | Value |
-|---|---|
-| Exact verdict accuracy | **93.3%** (42/45) |
-| Binary gate accuracy (pass/fail) | **93.3%** |
-| False passes (bad claim judged supported) | **0** |
-| Fetch failures on the set | 0 |
-| `uncertain` cop-outs | 0 |
+| Metric | v0.1.2 (full text) | **v0.1.3 (passage selection)** |
+|---|---|---|
+| Exact verdict accuracy | 93.3% (42/45) | **95.6%** (43/45) |
+| Binary gate accuracy (pass/fail) | 93.3% | **95.6%** |
+| False passes (bad claim judged supported) | 0 | **0** |
+| Fetch failures / `uncertain` cop-outs | 0 / 0 | 0 / 0 |
+| Judge input size per claim | up to ~40k chars | **~6k chars (≈7× cheaper)** |
+
+v0.1.3 adds local BM25-lite passage selection before the judge: only the paragraphs relevant to the claim (plus neighbours and the document lead) are sent. Accuracy *improved* — less boilerplate noise for the judge — while unit cost dropped ~7×.
+
+Model note: the passage pipeline was also measured with the cheaper `qwen-flash` judge: 77.8% exact with 2 false passes — not acceptable. The judge model matters; `qwen3.7-plus` (thinking) stays in production.
 
 Confusion (expected → got), errors only:
 

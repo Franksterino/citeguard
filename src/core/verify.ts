@@ -11,6 +11,7 @@ import { fetchSource } from "./fetcher.js";
 import { extractContent } from "../extract/content.js";
 import { extractCitations } from "../extract/citations.js";
 import { judgeClaim } from "../judge/entailment.js";
+import { selectPassages } from "../judge/passages.js";
 
 const CONCURRENCY = 4;
 
@@ -47,7 +48,8 @@ async function verifyOne(judge: JudgeClient, claim: Claim): Promise<ClaimVerdict
     };
   }
 
-  const outcome = await judgeClaim(judge, claim, content);
+  const focused = selectPassages(claim.text, content);
+  const outcome = await judgeClaim(judge, claim, focused);
   return {
     claimId: claim.id,
     claim: claim.text,

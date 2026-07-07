@@ -1,6 +1,6 @@
 {
   "name": "citeguard",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Per-claim citation verification for AI-generated text: fetches every cited source and returns supported/contradicted/unsupported verdicts with quoted evidence spans.",
   "license": "MIT",
   "type": "module",

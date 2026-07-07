@@ -5,8 +5,8 @@
   "judgeable": 45,
   "couldNotFetch": 0,
   "uncertain": 0,
-  "exactAccuracy": 0.933,
-  "gateAccuracy": 0.933,
+  "exactAccuracy": 0.956,
+  "gateAccuracy": 0.956,
   "confusionMatrix": {
    "supported": {
     "supported": 14,
@@ -18,8 +18,8 @@
    },
    "partially_supported": {
     "supported": 0,
-    "partially_supported": 10,
-    "contradicted": 2,
+    "partially_supported": 11,
+    "contradicted": 1,
     "unsupported": 0,
     "uncertain": 0,
     "could_not_fetch": 0
@@ -104,7 +104,7 @@
    "expected": "contradicted",
    "got": "contradicted",
    "confidence": 1,
-   "evidence": "Oxygen is a waste product of light-dependent reactions, but the majority of organisms on Earth use oxygen and its energy for cellular respiration"
+   "evidence": "The chlorophyll molecule ultimately regains the electron it lost when a water molecule is split in a process called photolysis, which releases oxygen."
   },
   {
    "id": "science-10",
@@ -179,7 +179,7 @@
   {
    "id": "history-8",
    "expected": "partially_supported",
-   "got": "contradicted",
+   "got": "partially_supported",
    "confidence": 0.95,
    "evidence": "The Berlin Wall was more than 140 kilometres (87 mi) long."
   },
@@ -188,14 +188,14 @@
    "expected": "partially_supported",
    "got": "partially_supported",
    "confidence": 1,
-   "evidence": "full demolition of the Wall beginning on 13 June 1990 and concluding in 1994"
+   "evidence": "full demolition of the Wall beginning on 13 June 1990 and concluding in 1994."
   },
   {
    "id": "history-10",
    "expected": "contradicted",
    "got": "contradicted",
    "confidence": 1,
-   "evidence": "The Berlin Wall (German: Berliner Mauer, pronounced [bɛʁˌliːnɐ ˈmaʊɐ] ⓘ) was a guarded concrete barrier that encircled West Berlin from 1961 to 1989, separating it from East Berlin and the German Democratic Republic (GDR; East Germany)."
+   "evidence": "The Berlin Wall ... was a guarded concrete barrier that encircled West Berlin from 1961 to 1989, separating it from East Berlin"
   },
   {
    "id": "history-12",
@@ -236,7 +236,7 @@
    "id": "tech-5",
    "expected": "partially_supported",
    "got": "partially_supported",
-   "confidence": 0.95,
+   "confidence": 1,
    "evidence": "In March 1994, Linux 1.0.0 was released with 176,250 lines of code."
   },
   {
@@ -314,7 +314,7 @@
    "expected": "partially_supported",
    "got": "partially_supported",
    "confidence": 1,
-   "evidence": "Despite Everest's objections, Waugh's proposed name prevailed, and the Royal Geographical Society officially adopted the name \"Mount Everest\" in 1865."
+   "evidence": "the Royal Geographical Society officially adopted the name \"Mount Everest\" in 1865."
   },
   {
    "id": "geo-6",
@@ -342,7 +342,7 @@
    "expected": "contradicted",
    "got": "contradicted",
    "confidence": 1,
-   "evidence": "While not posing substantial technical climbing challenges on the standard route, Everest presents dangers such as altitude sickness, weather, and wind, as well as hazards from avalanches and the Khumbu Icefall."
+   "evidence": "While not posing substantial technical climbing challenges on the standard route, Everest presents dangers such as altitude sickness, weather, and wind"
   },
   {
    "id": "econ-1",

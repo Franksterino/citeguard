@@ -1,0 +1,12 @@
+Evaluating 45 claims with judge model: qwen-flash
+Wrong verdicts:
+ science-5: expected partially_supported, got contradicted (conf 1)
+ science-6: expected partially_supported, got supported (conf 1)
+ science-9: expected contradicted, got supported (conf 0.9)
+ history-3: expected partially_supported, got contradicted (conf 0.9)
+ history-8: expected partially_supported, got contradicted (conf 0.9)
+ history-9: expected partially_supported, got contradicted (conf 0.9)
+ history-10: expected contradicted, got supported (conf 0.95)
+ tech-6: expected partially_supported, got contradicted (conf 1)
+ geo-5: expected partially_supported, got contradicted (conf 0.9)
+ geo-6: expected partially_supported, got supported (conf 1)

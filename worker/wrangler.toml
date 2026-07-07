@@ -17,4 +17,4 @@ binding = "AI"
 [vars]
 # Free tier: requests per day per IP.
 FREE_DAILY_LIMIT = "50"
-DASHSCOPE_MODEL = "qwen-flash"
+DASHSCOPE_MODEL = "qwen3.7-plus"
