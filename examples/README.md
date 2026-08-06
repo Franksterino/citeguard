@@ -19,4 +19,6 @@ node examples/apify-mcp-citation-agent.mjs
 
 The script exposes only the CiteGuard Actor and its storage helper tools. It asks the model to check two Eiffel Tower claims, prints the selected tool sequence, and returns the final evidence-backed review.
 
+A sanitized capture from a verified live run is available in [`apify-mcp-live-output.json`](./apify-mcp-live-output.json). It contains the Actor run metadata, both model-selected tool calls, and the two returned dataset rows. It contains no credentials.
+
 Never commit either API key to the repository.

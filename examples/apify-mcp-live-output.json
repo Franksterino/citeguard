@@ -1,0 +1,53 @@
+{
+  "capturedAt": "2026-08-06T15:03:59.652Z",
+  "run": {
+    "id": "0j9jWOafVnZkH86Mr",
+    "status": "SUCCEEDED",
+    "runtimeSeconds": 4.183,
+    "infrastructureUsageUsd": 0.0010103716563781104,
+    "datasetId": "CSLBmLxCERq9kLp6v"
+  },
+  "trace": [
+    {
+      "step": 1,
+      "tool": "franksterino--ai-citation-auditor",
+      "arguments": {
+        "claims": [
+          {
+            "text": "The Eiffel Tower is 330 metres tall.",
+            "source": "https://en.wikipedia.org/wiki/Eiffel_Tower"
+          },
+          {
+            "text": "The Eiffel Tower is located in Berlin.",
+            "source": "https://en.wikipedia.org/wiki/Eiffel_Tower"
+          }
+        ],
+        "waitSecs": 30
+      }
+    },
+    {
+      "step": 2,
+      "tool": "get-dataset-items",
+      "arguments": {
+        "datasetId": "CSLBmLxCERq9kLp6v",
+        "limit": 20
+      }
+    }
+  ],
+  "datasetRows": [
+    {
+      "claim": "The Eiffel Tower is 330 metres tall.",
+      "verdict": "supported",
+      "confidence": 1,
+      "evidence": "The tower is 330 metres (1,083 ft) tall,",
+      "httpStatus": 200
+    },
+    {
+      "claim": "The Eiffel Tower is located in Berlin.",
+      "verdict": "contradicted",
+      "confidence": 1,
+      "evidence": "Location: 7th arrondissement of Paris, France",
+      "httpStatus": 200
+    }
+  ]
+}
