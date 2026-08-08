@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "build:actor": "esbuild apify/src/main.ts --bundle --platform=node --target=node22 --format=esm --external:apify --external:undici --outfile=apify/main.js",
     "dev": "tsx src/cli.ts",
     "mcp": "tsx src/mcp/server.ts",
     "test": "vitest run",
