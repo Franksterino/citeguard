@@ -35,10 +35,9 @@ Confusion (expected → got), errors only:
 | id | expected | got |
 |---|---|---|
 | history-5 | contradicted | partially_supported |
-| history-8 | partially_supported | contradicted |
 | tech-6 | partially_supported | contradicted |
 
-All three residual errors sit on the `partially_supported` / `contradicted` boundary — cases where "one detail differs" vs "states the opposite" is genuinely arguable (e.g. splashdown in the Atlantic vs Pacific: wrong ocean as a detail, or opposite of the stated fact?). **No error crosses the safety boundary**: nothing false was ever judged `supported`.
+Both residual errors sit on the `partially_supported` / `contradicted` boundary — cases where "one detail differs" vs "states the opposite" is genuinely arguable (e.g. splashdown in the Atlantic vs Pacific: wrong ocean as a detail, or opposite of the stated fact?). **No error crosses the safety boundary**: nothing false was ever judged `supported`.
 
 ## What changed to get here
 

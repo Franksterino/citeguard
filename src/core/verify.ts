@@ -7,7 +7,7 @@ import type {
   JudgeClient,
   SourceStatus,
 } from "../types.js";
-import { fetchSource } from "./fetcher.js";
+import type { FetchResult } from "./fetcher.js";
 import { extractContent } from "../extract/content.js";
 import { extractCitations } from "../extract/citations.js";
 import { judgeClaim } from "../judge/entailment.js";
@@ -15,8 +15,14 @@ import { selectPassages } from "../judge/passages.js";
 
 const CONCURRENCY = 4;
 
-async function verifyOne(judge: JudgeClient, claim: Claim): Promise<ClaimVerdict> {
-  const { status, body } = await fetchSource(claim.source);
+export type SourceFetcher = (url: string) => Promise<FetchResult>;
+
+async function verifyOne(
+  judge: JudgeClient,
+  claim: Claim,
+  sourceFetcher: SourceFetcher,
+): Promise<ClaimVerdict> {
+  const { status, body } = await sourceFetcher(claim.source);
 
   if (!body || (!status.ok && !status.fromArchive)) {
     return {
@@ -63,6 +69,7 @@ async function verifyOne(judge: JudgeClient, claim: Claim): Promise<ClaimVerdict
 export async function verifyClaims(
   judge: JudgeClient,
   claims: Claim[],
+  sourceFetcher: SourceFetcher,
 ): Promise<ClaimVerdict[]> {
   const results: ClaimVerdict[] = new Array(claims.length);
   let next = 0;
@@ -71,7 +78,7 @@ export async function verifyClaims(
       const i = next++;
       if (i >= claims.length) return;
       try {
-        results[i] = await verifyOne(judge, claims[i]);
+        results[i] = await verifyOne(judge, claims[i], sourceFetcher);
       } catch (err) {
         const status: SourceStatus = {
           resolvedUrl: claims[i].source,
@@ -141,8 +148,9 @@ export function buildReport(verdicts: ClaimVerdict[]): DocumentReport {
 export async function checkDocument(
   judge: JudgeClient,
   documentText: string,
+  sourceFetcher: SourceFetcher,
 ): Promise<DocumentReport> {
   const claims = extractCitations(documentText);
-  const verdicts = await verifyClaims(judge, claims);
+  const verdicts = await verifyClaims(judge, claims, sourceFetcher);
   return buildReport(verdicts);
 }

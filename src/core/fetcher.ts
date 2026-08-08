@@ -7,6 +7,8 @@
  *    the cited deep link is dead even though HTTP says 200.
  */
 
+import ipaddr from "ipaddr.js";
+
 import type { SourceStatus } from "../types.js";
 
 export interface FetchResult {
@@ -17,23 +19,129 @@ export interface FetchResult {
 
 const DEFAULT_TIMEOUT_MS = 15_000;
 const MAX_BODY_BYTES = 5 * 1024 * 1024; // 5 MB cap per source
+const MAX_REDIRECTS = 5;
+const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
 
 const UA =
   "Mozilla/5.0 (compatible; CiteGuard/0.1; +https://github.com/Franksterino/citeguard)";
 
-async function fetchWithTimeout(url: string, timeoutMs: number): Promise<Response> {
+export type FetchImplementation = (
+  url: string,
+  init: RequestInit,
+) => Promise<Response>;
+
+export interface FetchSourceOptions {
+  timeoutMs?: number;
+  fetchImpl?: FetchImplementation;
+}
+
+export class UnsafeUrlError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "UnsafeUrlError";
+  }
+}
+
+const BLOCKED_HOST_SUFFIXES = [
+  ".localhost",
+  ".local",
+  ".localdomain",
+  ".internal",
+  ".lan",
+  ".home.arpa",
+  ".test",
+  ".invalid",
+  ".example",
+];
+
+function bareHostname(hostname: string): string {
+  return hostname.replace(/^\[|\]$/g, "").replace(/\.$/, "").toLowerCase();
+}
+
+/** True only for globally routable unicast IP addresses. */
+export function isPublicIpAddress(value: string): boolean {
+  const candidate = bareHostname(value);
+  if (!ipaddr.isValid(candidate)) return false;
+  let address = ipaddr.parse(candidate);
+  if (address.kind() === "ipv6") {
+    const ipv6 = address as ipaddr.IPv6;
+    if (ipv6.isIPv4MappedAddress()) address = ipv6.toIPv4Address();
+  }
+  return address.range() === "unicast";
+}
+
+/** Parse a source URL and reject destinations that can reach local/private services. */
+export function assertSafeRemoteUrl(value: string | URL): URL {
+  let url: URL;
+  try {
+    url = value instanceof URL ? new URL(value.href) : new URL(value);
+  } catch {
+    throw new UnsafeUrlError("Source must be a valid absolute URL.");
+  }
+
+  if (url.protocol !== "http:" && url.protocol !== "https:") {
+    throw new UnsafeUrlError("Only HTTP and HTTPS source URLs are allowed.");
+  }
+  if (url.username || url.password) {
+    throw new UnsafeUrlError("Source URLs must not contain credentials.");
+  }
+
+  const hostname = bareHostname(url.hostname);
+  if (!hostname || hostname === "localhost") {
+    throw new UnsafeUrlError("Localhost source URLs are not allowed.");
+  }
+  if (BLOCKED_HOST_SUFFIXES.some((suffix) => hostname.endsWith(suffix))) {
+    throw new UnsafeUrlError(`Non-public hostname is not allowed: ${hostname}`);
+  }
+
+  if (ipaddr.isValid(hostname)) {
+    if (!isPublicIpAddress(hostname)) {
+      throw new UnsafeUrlError(`Non-public IP address is not allowed: ${hostname}`);
+    }
+  } else if (!hostname.includes(".")) {
+    throw new UnsafeUrlError(`Single-label hostname is not allowed: ${hostname}`);
+  }
+
+  return url;
+}
+
+interface FetchedResponse {
+  response: Response;
+  resolvedUrl: string;
+}
+
+async function fetchWithTimeout(
+  rawUrl: string,
+  timeoutMs: number,
+  fetchImpl: FetchImplementation,
+): Promise<FetchedResponse> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    return await fetch(url, {
-      redirect: "follow",
-      signal: controller.signal,
-      headers: {
-        "user-agent": UA,
-        accept: "text/html,application/xhtml+xml,application/pdf,text/plain,*/*;q=0.8",
-        "accept-language": "en",
-      },
-    });
+    let current = assertSafeRemoteUrl(rawUrl);
+    for (let redirects = 0; ; redirects += 1) {
+      const response = await fetchImpl(current.href, {
+        redirect: "manual",
+        signal: controller.signal,
+        headers: {
+          "user-agent": UA,
+          accept: "text/html,application/xhtml+xml,application/pdf,text/plain,*/*;q=0.8",
+          "accept-language": "en",
+        },
+      });
+
+      const location = response.headers.get("location");
+      const isRedirect = REDIRECT_STATUSES.has(response.status) && location;
+      if (!isRedirect) {
+        return { response, resolvedUrl: current.href };
+      }
+      if (redirects >= MAX_REDIRECTS) {
+        await response.body?.cancel();
+        throw new Error(`Source exceeded ${MAX_REDIRECTS} redirects.`);
+      }
+      await response.body?.cancel();
+      current = assertSafeRemoteUrl(new URL(location, current));
+    }
   } finally {
     clearTimeout(timer);
   }
@@ -77,19 +185,42 @@ async function readCapped(res: Response): Promise<ArrayBuffer> {
 /** Fetch a source URL; on failure, try the latest archive.org snapshot. */
 export async function fetchSource(
   url: string,
-  opts: { timeoutMs?: number } = {},
+  opts: FetchSourceOptions = {},
 ): Promise<FetchResult> {
   const timeoutMs = opts.timeoutMs ?? DEFAULT_TIMEOUT_MS;
-  const originalDeepLink = !isRootPath(url);
+  const fetchImpl: FetchImplementation =
+    opts.fetchImpl ?? ((input, init) => fetch(input, init));
+
+  let safeOriginal: URL;
+  try {
+    safeOriginal = assertSafeRemoteUrl(url);
+  } catch (err) {
+    return {
+      status: {
+        resolvedUrl: url,
+        httpStatus: 0,
+        ok: false,
+        fromArchive: false,
+        redirectedToRoot: false,
+        contentType: "",
+        error: err instanceof Error ? err.message : String(err),
+      },
+    };
+  }
+  const originalDeepLink = !isRootPath(safeOriginal.href);
 
   let direct: FetchResult | undefined;
   try {
-    const res = await fetchWithTimeout(url, timeoutMs);
+    const { response: res, resolvedUrl } = await fetchWithTimeout(
+      safeOriginal.href,
+      timeoutMs,
+      fetchImpl,
+    );
     const contentType = res.headers.get("content-type") ?? "";
     const redirectedToRoot =
-      originalDeepLink && res.url !== url && isRootPath(res.url);
+      originalDeepLink && resolvedUrl !== safeOriginal.href && isRootPath(resolvedUrl);
     const status: SourceStatus = {
-      resolvedUrl: res.url,
+      resolvedUrl,
       httpStatus: res.status,
       ok: res.ok && !redirectedToRoot,
       fromArchive: false,
@@ -114,26 +245,28 @@ export async function fetchSource(
         error: err instanceof Error ? err.message : String(err),
       },
     };
+    if (err instanceof UnsafeUrlError) return direct;
   }
 
   // Archive.org fallback for dead or soft-404 links.
   try {
     const apiUrl = `https://archive.org/wayback/available?url=${encodeURIComponent(url)}`;
-    const api = await fetchWithTimeout(apiUrl, timeoutMs);
+    const { response: api } = await fetchWithTimeout(apiUrl, timeoutMs, fetchImpl);
     if (api.ok) {
       const data = (await api.json()) as {
         archived_snapshots?: { closest?: { available?: boolean; url?: string } };
       };
       const snapshot = data.archived_snapshots?.closest;
       if (snapshot?.available && snapshot.url) {
-        const snapRes = await fetchWithTimeout(
+        const { response: snapRes, resolvedUrl } = await fetchWithTimeout(
           snapshot.url.replace(/^http:/, "https:"),
           timeoutMs,
+          fetchImpl,
         );
         if (snapRes.ok) {
           return {
             status: {
-              resolvedUrl: snapRes.url,
+              resolvedUrl,
               httpStatus: snapRes.status,
               ok: true,
               fromArchive: true,

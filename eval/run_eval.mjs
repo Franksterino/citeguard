@@ -5,6 +5,7 @@
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { verifyClaims } from "../dist/core/verify.js";
+import { fetchSourceWithNodeSafety } from "../dist/core/node-safe-fetch.js";
 import { judgeFromEnv } from "../dist/judge/providers.js";
 
 const LABELS = ["supported", "partially_supported", "contradicted", "unsupported"];
@@ -14,7 +15,7 @@ const judge = judgeFromEnv();
 console.error(`Evaluating ${items.length} claims with judge model: ${judge.model}`);
 
 const claims = items.map((it) => ({ id: it.id, text: it.claim, source: it.source }));
-const verdicts = await verifyClaims(judge, claims);
+const verdicts = await verifyClaims(judge, claims, fetchSourceWithNodeSafety);
 
 const byId = new Map(verdicts.map((v) => [v.claimId, v]));
 const rows = items.map((it) => ({

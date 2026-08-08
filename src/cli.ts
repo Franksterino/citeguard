@@ -10,7 +10,7 @@
 import { readFileSync } from "node:fs";
 
 import { checkDocument } from "./core/verify.js";
-import { fetchSource } from "./core/fetcher.js";
+import { fetchSourceWithNodeSafety } from "./core/node-safe-fetch.js";
 import { extractCitations } from "./extract/citations.js";
 import { judgeFromEnv } from "./judge/providers.js";
 
@@ -34,7 +34,7 @@ switch (command) {
     const unique = [...new Map(claims.map((c) => [c.source, c])).values()];
     const results = await Promise.all(
       unique.map(async (c) => {
-        const { status } = await fetchSource(c.source);
+        const { status } = await fetchSourceWithNodeSafety(c.source);
         return { source: c.source, ...status };
       }),
     );
@@ -45,7 +45,7 @@ switch (command) {
   }
   case "check": {
     const judge = judgeFromEnv();
-    const report = await checkDocument(judge, text);
+    const report = await checkDocument(judge, text, fetchSourceWithNodeSafety);
     console.log(JSON.stringify(report, null, 2));
     console.error(
       `\nIntegrity score: ${report.integrityScore}/100 ` +

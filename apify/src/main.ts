@@ -11,7 +11,7 @@ import { Actor } from "apify";
 
 import { verifyClaims, buildReport } from "../../src/core/verify.js";
 import { extractCitations } from "../../src/extract/citations.js";
-import { fetchSource } from "../../src/core/fetcher.js";
+import { fetchSourceWithNodeSafety } from "../../src/core/node-safe-fetch.js";
 import { extractContent } from "../../src/extract/content.js";
 import { judgeFromEnv } from "../../src/judge/providers.js";
 import type { Claim } from "../../src/types.js";
@@ -45,7 +45,7 @@ if (input.claims?.length) {
 } else if (input.documentText?.trim()) {
   claims = extractCitations(input.documentText);
 } else if (input.documentUrl?.trim()) {
-  const { status, body } = await fetchSource(input.documentUrl);
+  const { status, body } = await fetchSourceWithNodeSafety(input.documentUrl);
   if (!body) {
     await Actor.fail(`Could not fetch documentUrl (HTTP ${status.httpStatus}${status.error ? `, ${status.error}` : ""}).`);
     process.exit(1);
@@ -74,7 +74,7 @@ if (claims.length > maxClaims) {
 
 console.log(`Verifying ${claims.length} claims...`);
 const judge = judgeFromEnv();
-const verdicts = await verifyClaims(judge, claims);
+const verdicts = await verifyClaims(judge, claims, fetchSourceWithNodeSafety);
 const report = buildReport(verdicts);
 
 await charge("claim-verified", verdicts.length);

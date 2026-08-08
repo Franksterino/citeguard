@@ -1,7 +1,7 @@
 name = "citeguard"
 main = "src/index.ts"
 compatibility_date = "2026-06-01"
-compatibility_flags = ["nodejs_compat"]
+compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 account_id = "d54321e33278183a825201f78c20f829"
 
 [observability]

@@ -12,7 +12,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 
 import { verifyClaims, checkDocument, buildReport } from "../core/verify.js";
-import { fetchSource } from "../core/fetcher.js";
+import { fetchSourceWithNodeSafety } from "../core/node-safe-fetch.js";
 import { extractCitations } from "../extract/citations.js";
 import { judgeFromEnv } from "../judge/providers.js";
 import type { JudgeClient } from "../types.js";
@@ -45,7 +45,7 @@ server.tool(
   },
   async ({ claims }) => {
     const withIds = claims.map((c, i) => ({ id: `c${i + 1}`, ...c }));
-    const verdicts = await verifyClaims(getJudge(), withIds);
+    const verdicts = await verifyClaims(getJudge(), withIds, fetchSourceWithNodeSafety);
     const report = buildReport(verdicts);
     return {
       content: [{ type: "text", text: JSON.stringify(report, null, 2) }],
@@ -60,7 +60,7 @@ server.tool(
     document: z.string().min(1).describe("The document text (markdown or plain text)"),
   },
   async ({ document }) => {
-    const report = await checkDocument(getJudge(), document);
+    const report = await checkDocument(getJudge(), document, fetchSourceWithNodeSafety);
     return {
       content: [{ type: "text", text: JSON.stringify(report, null, 2) }],
     };
@@ -78,7 +78,7 @@ server.tool(
     const unique = [...new Map(claims.map((c) => [c.source, c])).values()];
     const results = await Promise.all(
       unique.map(async (c) => {
-        const { status } = await fetchSource(c.source);
+        const { status } = await fetchSourceWithNodeSafety(c.source);
         return { source: c.source, ...status };
       }),
     );

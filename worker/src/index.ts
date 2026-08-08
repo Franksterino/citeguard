@@ -99,7 +99,7 @@ async function cachedVerifyClaims(
   const keys = await Promise.all(claims.map((c) => sha256(`${c.text}|${c.source}`)));
   const cached = await Promise.all(keys.map((k) => env.CACHE.get(`v1:${k}`, "json")));
   const misses = claims.filter((_, i) => !cached[i]);
-  const fresh = misses.length ? await verifyClaims(judge, misses) : [];
+  const fresh = misses.length ? await verifyClaims(judge, misses, fetchSource) : [];
   const freshById = new Map(fresh.map((v) => [v.claimId, v]));
   const results = claims.map((c, i) => {
     const hit = cached[i] as Awaited<ReturnType<typeof verifyClaims>>[number] | null;
